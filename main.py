@@ -191,12 +191,7 @@ for iter in tqdm.trange(args.max_iterations):
     bps.append(bp)
     times.append(time2-time1)
 
-final_bps = []
-for bp in bps:
-    if bp[0] > 0.57:
-        final_bps.append(bp)
-
-aver_bp = np.mean(np.array(final_bps), axis=0)
+aver_bp = np.mean(np.array(bps), axis=0)
 aver_time = np.mean(np.array(times))
 
 print('Average Total Time %.2f' % (aver_time))

@@ -4,11 +4,9 @@ import torch_geometric
 from torch_geometric.nn.conv import MessagePassing, GCNConv
 from torch_geometric.utils import add_remaining_self_loops, degree
 
-class DirectedUnweighted(MessagePassing): #重新构造GCN框架
-    def __init__(self, K=1, cached=False, bias=True,
-                 **kwargs):
-        super(DirectedUnweighted, self).__init__(aggr='add', **kwargs)
-        self.K = K
+class DirectedGCN(MessagePassing):
+    def __init__(self, cached=False, bias=True, **kwargs):
+        super(DirectedGCN, self).__init__(aggr='add', **kwargs)
 
     def forward(self, x, edge_index, edge_weight=None):
 
@@ -34,22 +32,15 @@ class DirectedUnweighted(MessagePassing): #重新构造GCN框架
         norm_r = deg_inv_sqrt_r[row] * edge_weight
         norm_t = deg_inv_sqrt_t[row_t] * edge_weight
 
-        # edge_index, norm = GCNConv.norm(edge_index, x.size(0), edge_weight,dtype=x.dtype) #归一化处理
+        # edge_index, norm = GCNConv.norm(edge_index, x.size(0), edge_weight,dtype=x.dtype)
 
-        xs_r = [x]
-        for k in range(self.K):
-            xs_r.append(self.propagate(edge_index, x=xs_r[-1], norm=norm_r))
-        xs_t = [x]
-        for k in range(self.K):
-            xs_t.append(self.propagate(edge_index, x=xs_t[-1], norm=norm_t))
-        xs_r = torch.cat(xs_r, dim=1)
-        xs_t = torch.cat(xs_t, dim=1)
+        xs_r = self.propagate(edge_index, x=x[:,:int(x.size(1)/2)], norm=norm_r)
+        xs_t = self.propagate(edge_index, x=x[:,int(x.size(1)/2):], norm=norm_t)
         xs = torch.cat([xs_r, xs_t], dim=1)
-        return xs #没有任何的parameters，将[X, AX, A^2X, ..., A^kX]进行拼接，横向拼接，减小之后的求解时间
-        # return torch.stack(xs, dim=0).mean(dim=0)
+        return xs
 
     def message(self, x_j, norm):
-        return norm.view(-1, 1) * x_j #将norm转换为列向量，再同x_j相乘
+        return norm.view(-1, 1) * x_j
 
     def __repr__(self):
         return '{}({}, {}, K={})'.format(self.__class__.__name__,

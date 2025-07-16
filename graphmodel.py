@@ -146,14 +146,14 @@ class GCNNet(torch.nn.Module):
 class GATNet(torch.nn.Module):
     def __init__(self, input_size, output_size, hidden_size=512, heads=1):
         super(GATNet, self).__init__()
-        self.conv1 = GATConv(input_size, hidden_size, heads=heads) #可以多头机制
+        self.conv1 = GATConv(input_size, hidden_size, heads=heads)
         self.conv2 = GATConv(hidden_size * heads, output_size)
     def reset_parameters(self):
         self.conv1.reset_parameters()
         self.conv2.reset_parameters()
     def forward(self, feature, edge_index):
         x = F.dropout(feature, p=0.5, training=self.training)
-        x = F.elu(self.conv1(x, edge_index)) #将elu作为激活函数，alpha的默认值为1.0
+        x = F.elu(self.conv1(x, edge_index))
         x = F.dropout(x, p=0.5, training=self.training)
         x = self.conv2(x, edge_index)
         return x

@@ -44,11 +44,11 @@ class DirectedUnweighted(MessagePassing):
         xs_r = torch.cat(xs_r, dim=1)
         xs_t = torch.cat(xs_t, dim=1)
         xs = torch.cat([xs_r, xs_t], dim=1)
-        return xs #没有任何的parameters，将[X, AX, A^2X, ..., A^kX]进行拼接，横向拼接，减小之后的求解时间
+        return xs
         # return torch.stack(xs, dim=0).mean(dim=0)
 
     def message(self, x_j, norm):
-        return norm.view(-1, 1) * x_j #将norm转换为列向量，再同x_j相乘
+        return norm.view(-1, 1) * x_j
 
     def __repr__(self):
         return '{}({}, {}, K={})'.format(self.__class__.__name__,

@@ -4,7 +4,7 @@ import torch_geometric
 from torch_geometric.nn.conv import MessagePassing, GCNConv
 from torch_geometric.utils import add_remaining_self_loops, degree
 
-class DirectedUnweighted(MessagePassing): #重新构造GCN框架
+class DirectedUnweighted(MessagePassing):
     def __init__(self, K=1, cached=False, bias=True,
                  **kwargs):
         super(DirectedUnweighted, self).__init__(aggr='add', **kwargs)
@@ -12,7 +12,6 @@ class DirectedUnweighted(MessagePassing): #重新构造GCN框架
 
     def forward(self, x, edge_index, edge_weight=None):
 
-        # 定义归一化处理的方式
         if edge_weight is None:
             edge_weight = torch.ones((edge_index.size(1), ), dtype=x.dtype,
                                      device=edge_index.device)
@@ -34,7 +33,7 @@ class DirectedUnweighted(MessagePassing): #重新构造GCN框架
         norm_r = deg_inv_sqrt_r[row] * edge_weight
         norm_t = deg_inv_sqrt_t[row_t] * edge_weight
 
-        # edge_index, norm = GCNConv.norm(edge_index, x.size(0), edge_weight,dtype=x.dtype) #归一化处理
+        # edge_index, norm = GCNConv.norm(edge_index, x.size(0), edge_weight,dtype=x.dtype)
 
         xs_r = [x]
         for k in range(self.K):

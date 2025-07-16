@@ -10,7 +10,6 @@ class DirectedGCN(MessagePassing):
 
     def forward(self, x, edge_index, edge_weight=None):
 
-        # 定义归一化处理的方式
         if edge_weight is None:
             edge_weight = torch.ones((edge_index.size(1), ), dtype=x.dtype,
                                      device=edge_index.device)

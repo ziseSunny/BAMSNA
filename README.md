@@ -17,11 +17,11 @@ python==3.6.13, torch==1.8.0, torch-geometric==1.4.3, NVIDIA Tesla T4
 ```
 
 
-Indexes and ground-truth of ACM-DBLP, Online-Offline, and Weibo-Douban:
+User indexes and number of ground-truth for ACM-DBLP, Online-Offline, and Weibo-Douban:
 
 ```
 ACM-DBLP_0.2.npz: ACM (0~9871, 9872 users in total), DBLP (0~9915, 9916 users in total), ground-truth (1265 pos_pairs + 5060 neg_pairs = 6325 pairs in total)
-Douban.mat: Online (0~3905, 3906 users in total), Offline (0~1117, 1118 users in total), ground-truth (indexes start from 1, 1118 pairs in total)
+Douban.mat: Online (0~3905, 3906 users in total), Offline (0~1117, 1118 users in total), ground-truth (1118 pairs in total)
 Allmovie-Imdb.npz: Allmovie (0~6010, 6011 users in total), IMDB (0~5712, 5713 users in total), ground-truth (5176 pairs in total)
 MAUIL_douban_weibo.npz: Weibo (0~9713, 9714 users in total), Douban (0~9525, 9526 users in total), ground-truth (1397 pairs in total)
 ```

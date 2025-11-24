@@ -17,7 +17,7 @@ python==3.6.13, torch==1.8.0, torch-geometric==1.4.3, NVIDIA Tesla T4
 ```
 
 
-User indexes and number of ground-truth for ACM-DBLP, Online-Offline, and Weibo-Douban:
+User indexes and number of ground-truth for ACM-DBLP, Online-Offline, Allmovie-IMDB, and Weibo-Douban:
 
 ```
 ACM-DBLP_0.2.npz: ACM (0~9871, 9872 users in total), DBLP (0~9915, 9916 users in total), ground-truth (1265 pos_pairs + 5060 neg_pairs = 6325 pairs in total)
